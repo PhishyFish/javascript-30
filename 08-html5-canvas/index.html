@@ -18,11 +18,13 @@
   ctx.strokeStyle = '#5B507A';
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
+  ctx.lineWidth = 3;
 
   let isDrawing = false;
   let lastX = 0;
   let lastY = 0;
   let hue = 0;
+  let grow = true;
 
   function draw(e) {
     if (!isDrawing) return;
@@ -34,10 +36,16 @@
     ctx.stroke();
 
     [lastX, lastY] = [e.offsetX, e.offsetY];
+
     hue++;
     if (hue >= 360) {
       hue = 0;
     }
+
+    if (ctx.lineWidth > 100 || ctx.lineWidth < 3) {
+      grow = !grow;
+    }
+    grow ? ctx.lineWidth++ : ctx.lineWidth--;
   }
 
   canvas.addEventListener('mousemove', draw);
