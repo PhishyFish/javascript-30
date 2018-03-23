@@ -7,6 +7,19 @@
 </head>
 <body>
 <script>
+  const pressed = [];
+  const code = 'unicorn';
+
+  window.addEventListener('keyup', compareCode);
+
+  function compareCode(e) {
+    pressed.push(e.key);
+    pressed.splice(-code.length - 1, pressed.length - code.length);
+
+    if (pressed.join('').includes(code)) {
+      cornify_add();
+    }
+  }
 </script>
 </body>
 </html>
