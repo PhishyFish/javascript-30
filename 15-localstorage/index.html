@@ -73,8 +73,7 @@
 
     const index = el.dataset.index;
     items[index].done = !items[index].done;
-    localStorage.setItem('items', JSON.stringify(items));
-    populateList(items, itemsList);
+    updateList(items, itemsList);
   }
 
   function massUpdate(e) {
@@ -85,8 +84,7 @@
     switch (el.dataset.action) {
       case 'clear':
         items.length = 0;
-        localStorage.removeItem('items');
-        populateList(items, itemsList);
+        updateList(items, itemsList);
         break;
       case 'check':
         for (item of listItems) {
@@ -94,12 +92,24 @@
           items[index].done = true;
         }
 
-        localStorage.setItem('items', JSON.stringify(items));
-        populateList(items, itemsList);
+        updateList(items, itemsList);
+        break;
+      case 'uncheck':
+        for (item of listItems) {
+          const index = item.firstElementChild.dataset.index;
+          items[index].done = false;
+        }
+
+        updateList(items, itemsList);
         break;
       default:
         return;
     }
+  }
+
+  function updateList(plates = [], platesList) {
+    localStorage.setItem('items', JSON.stringify(plates));
+    populateList(plates, platesList);
   }
 </script>
 
