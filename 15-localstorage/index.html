@@ -16,6 +16,11 @@
   <div class="wrapper">
     <h2>LOCAL TAPAS</h2>
     <p></p>
+    <div class="toggles">
+      <button data-action="clear">Clear All</button>
+      <button data-action="check">Check All</button>
+      <button data-action="uncheck">Uncheck All</button>
+    </div>
     <ul class="plates">
       <li>Loading Tapas...</li>
     </ul>
@@ -28,10 +33,12 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
+  const toggles = document.querySelector('.toggles');
   const items = JSON.parse(localStorage.getItem('items')) || [];
 
   addItems.addEventListener('submit', addItem);
   itemsList.addEventListener('click', toggleDone);
+  toggles.addEventListener('click', massUpdate);
   populateList(items, itemsList);
 
   function addItem(e) {
@@ -68,6 +75,21 @@
     items[index].done = !items[index].done;
     localStorage.setItem('items', JSON.stringify(items));
     populateList(items, itemsList);
+  }
+
+  function massUpdate(e) {
+    const el = e.target;
+    if (!el.matches('button')) return;
+
+    switch (el.dataset.action) {
+      case 'clear':
+        items.length = 0;
+        localStorage.removeItem('items');
+        populateList(items, itemsList);
+        break;
+      default:
+        return;
+    }
   }
 </script>
 
