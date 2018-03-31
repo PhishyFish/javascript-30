@@ -81,10 +81,20 @@
     const el = e.target;
     if (!el.matches('button')) return;
 
+    const listItems = itemsList.children;
     switch (el.dataset.action) {
       case 'clear':
         items.length = 0;
         localStorage.removeItem('items');
+        populateList(items, itemsList);
+        break;
+      case 'check':
+        for (item of listItems) {
+          const index = item.firstElementChild.dataset.index;
+          items[index].done = true;
+        }
+
+        localStorage.setItem('items', JSON.stringify(items));
         populateList(items, itemsList);
         break;
       default:
